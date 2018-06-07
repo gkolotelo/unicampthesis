@@ -1,0 +1,135 @@
+%
+% LaTeX template for the unicampthesis class, a class for UNICAMP
+% styled monographs, dissertations and theses, compliant with
+% INFORMAÇÃO CCPG/001/2015 to the best of my knowledge.
+%
+% Tested with pdflatex, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit)
+%
+% Copyright (c) 2018 Guilherme Kairalla Kolotelo.
+%
+% This document is available at "https://github.com/gkolotelo/unicampthesis".
+% Please, let me know if there any any problems with this version by submitting an issue.
+%
+% This work is licensed under the terms of the MIT license.
+% For a copy, see <https://opensource.org/licenses/MIT>.
+%
+% Packages required by unicampthesis class:
+%  	abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox,
+%   fancyhdr, fontenc, geometry, glossaries, glossaries-extra, graphicx,
+%	hyperref, hyphenat, ifthen, indentfirst, inputenc, layout, microtype,
+% 	setspace, titlesec, tocloft, url, xcolor
+%
+
+% ---------------------------------------------------------------------------
+% -------------------------- unicampthesis options --------------------------
+% ---------------------------------------------------------------------------
+\documentclass[
+	USenglish,			% Main language: Choose from brazil (or omit), USenglish, french, or spanish.
+	undergrad,			% Thesis type: Choose from "undergrad", "masters", or "doctorate".
+	upcaseauthor,		% Small caps on author name.
+	%upcasetitle,		% Small caps on Thesis title.
+	upcaseheadtitle,	% Small caps on titles of preliminary pages (abstract, dedications, ...).
+	%abnt-num,			% References style. Choose from "abnt-num", "abnt-alf", or omit for "ieeetr"
+	12pt,				% Font size (12pt in accordance to CCPG/001/2015)
+	openright,			% Chapters start on odd or even pages. Choose from "openleft", or "openright".
+	a4paper,			% Page size. Choose from "letter", or "a4paper".
+	oneside,			% one/two-sided formatting. Choose from "twoside", or "oneside".
+	]{unicampthesis} 
+
+
+% ---------------------------------------------------------------------------
+% ------------------------------- Font styles -------------------------------
+% ---------------------------------------------------------------------------
+% Font styles (CCPG/001/2015 specifies TNR, Arial or similar):
+%\usepackage{lmodern}
+\usepackage{kpfonts} % Similar to TNR but nicer looking IMO
+%\usepackage{charter} % Similar to TNR
+%\usepackage{mathptmx}	
+%\usepackage{newtxmath}
+%\usepackage{newtxtext}
+
+% try: Minion Pro (serif font) for the body text, Myriad Pro (sans-serif) for figure and table captions, and MnSymbol (math font that looks good with Minion) for the equations.
+
+% ---------------------------------------------------------------------------
+% ----------------- Useful packages (comment out if unused) -----------------
+% ---------------------------------------------------------------------------
+
+% Displays DRAFT watermark on upper right corner. Comment out for final version.
+%\usepackage{draftwatermark}\SetWatermarkAngle{54.8}\SetWatermarkScale{0.1}\SetWatermarkColor[gray]{0.5}\SetWatermarkText{\hspace{9500pt} DRAFT}
+
+% To-do floating text boxes. Remove all to-dos for final version.
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+% Usage:
+% \todo{To-do:...}
+% \todo[inline]{To-do:...}
+% \missingfigure
+% \listoftodos
+
+% Package for code snippets. Must add "--shell-escape" flag on compiler
+% \usepackage{minted}
+
+% Epigraph
+\usepackage{pgfornament}
+\usepackage{epigraph}
+\renewcommand{\epigraphsize}{\scriptsize}
+\setlength{\epigraphwidth}{.618\textwidth}
+\setlength{\epigraphrule}{0pt}
+\setlength{\beforeepigraphskip}{0mm}
+\newcommand{\epi}[2]{
+	\linespread{1}
+	\epigraph{``\fontfamily{artemisiaeuler}\selectfont{#1}''}
+	{\fontfamily{cinzel}\selectfont{---}\;#2}	
+	\begin{center}
+	  \pgfornament[width=.5\textwidth,color=black!50]{88}
+	\end{center}
+	\vspace{1\baselineskip}
+}
+
+% Show labels and references in text. Comment out for final version.
+\usepackage{showkeys}
+
+% Definition of custom environments using amsthm
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+
+% ---------------------------------------------------------------------------
+% -------------------------------- Main body --------------------------------
+% ---------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------ unicampthesis definitions ------------------------
+% Fill out appropriate fields on "definitions.tex" file.
+\include{definitions}
+% ---------------------------------------------------------------------------
+
+% To-do list
+% \listoftodos\todototoc\pagebreak
+
+% Comment or uncomment at will:
+\makecover
+\maketitle
+\makededications
+\makeacknowledgements
+\makeabstract
+\makefigureslist
+\maketableslist
+%\makeglossary % Work in progress
+\maketoc
+
+% Main document body:
+\include{chapters/chapter1}
+
+% References
+\makebibliography{references}
+
+
+
+
+\end{document}
