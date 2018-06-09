@@ -14,19 +14,23 @@
 %
 % Packages required by unicampthesis class:
 %   abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox,
-%   fancyhdr, fontenc, geometry, glossaries, glossaries-extra, graphicx,
-%   hyperref, hyphenat, ifthen, indentfirst, inputenc, layout, microtype,
-%   setspace, titlesec, tocloft, url, xcolor
+%   fancyhead, fontenc, graphicx, hyperref, hyphenat, ifthen, indentfirst,
+%   inputenc, layout, microtype, nomencl, setspace, tocloft, url, xcolor
 %
+%
+% The following line executes makeindex to generate required files for nomencl,
+% add it to the top of main tex file. "--shell-escape" flag is required.
+% \immediate\write18{makeindex -s nomencl.ist -o "\jobname.nls" "\jobname.nlo"}
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{unicampthesis}[2018/06/06 unicampthesis_v1.3] % Minor Fixes (gkk)
+\ProvidesClass{unicampthesis}[2018/06/09 unicampthesis_v1.4] % Added nomencl support and fixed references style, along with minor fixes (gkk)
+%\ProvidesClass{unicampthesis}[2018/06/06 unicampthesis_v1.3] % Minor Fixes (gkk)
 %\ProvidesClass{unicampthesis}[2018/04/12 unicampthesis_v1.2] % Minor Fixes (gkk)
 %\ProvidesClass{unicampthesis}[2018/02/14 unicampthesis_v1.1] % Major revamp (gkk)
 %\ProvidesClass{unicampthesis}[2017/09/06 unicampthesis_v1.0] % Initial concept (gkk)
 
 % To-dos:
-%   - Implement loa, annex, appendix, approval
+%   - Implement list of algorithms, annex, appendix, approval
 %   - Support multiple supervisors automatically
 %   - French and Spanish language defaults
 
@@ -163,9 +167,6 @@
 \definecolor{link_blue}{RGB}{1,106,125}
 \definecolor{link_darkblue}{RGB}{24,78,91}
 
-% Glossary (testing)
-% \RequirePackage[toc=false,nonumberlist,xindy,abbreviations,symbols,shortcuts=other]{glossaries-extra}
-
 % References hyperlinking and customization
 \RequirePackage{hyperref}
 \hypersetup{
@@ -185,6 +186,10 @@
     pdfpagelayout = SinglePage,
     pdfdisplaydoctitle = true
 }
+
+% Nomenclature
+\RequirePackage{nomencl}
+\makenomenclature
 
 % Headers and footers
 \RequirePackage{fancyhdr}
@@ -243,7 +248,7 @@
     \def\@namefigures{Lista de Figuras}
     \def\@nametables{Lista de Tabelas}
     \def\@namealgorithms{Lista de Algorítmos}
-    \def\@nameglossary{Glossário}
+    \def\@namenomenclature{Nomenclatura}
     \def\@nametoc{Sumário}
     \def\@namebib{Referências Bibliográficas}
     \def\@nameappendix{Apêndice}
@@ -281,7 +286,7 @@
     \def\@namefigures{List of Figures}
     \def\@nametables{List of Tables}
     \def\@namealgorithms{List of Algorithms}
-    \def\@nameglossary{Glossary}
+    \def\@namenomenclature{Nomenclature}
     \def\@nametoc{Table of Contents}
     \def\@namebib{References}
     \def\@nameappendix{Appendix}
@@ -318,7 +323,7 @@
     \def\@namefigures{fill_in_the_blank!}
     \def\@nametables{fill_in_the_blank!}
     \def\@namealgorithms{fill_in_the_blank!}
-    \def\@nameglossary{fill_in_the_blank!}
+    \def\@namenomenclature{fill_in_the_blank!}
     \def\@nametoc{fill_in_the_blank!}
     \def\@namebib{fill_in_the_blank!}
     \def\@nameappendix{fill_in_the_blank!}
@@ -354,7 +359,7 @@
     \def\@namefigures{fill_in_the_blank!}
     \def\@nametables{fill_in_the_blank!}
     \def\@namealgorithms{fill_in_the_blank!}
-    \def\@nameglossary{fill_in_the_blank!}
+    \def\@namenomenclature{fill_in_the_blank!}
     \def\@nametoc{fill_in_the_blank!}
     \def\@namebib{fill_in_the_blank!}
     \def\@nameappendix{fill_in_the_blank!}
@@ -489,7 +494,7 @@
     \fancyhf{}
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}
-    \setlength{\headsep}{2\baselineskip}
+    \setlength{\headsep}{10pt}
     \setlength{\marginparwidth}{45pt}
 }
 
@@ -497,7 +502,7 @@
     \fancyhf{}
     \renewcommand{\headrulewidth}{0.3pt}
     \renewcommand{\footrulewidth}{0pt}
-    \setlength{\headsep}{1\baselineskip}
+    \setlength{\headsep}{20pt}
     \setlength{\marginparwidth}{45pt}
     \ifdefined\@oneside
         \fancyhead[R]{\thepage}
@@ -513,7 +518,7 @@
     \fancyhf{}
     \renewcommand{\headrulewidth}{0.3pt}
     \renewcommand{\footrulewidth}{0pt}
-    \setlength{\headsep}{0.5\baselineskip}
+    \setlength{\headsep}{10pt}
     \setlength{\marginparwidth}{45pt}
     \ifdefined\@oneside
         \fancyhead[R]{\thepage}
@@ -526,31 +531,68 @@
     \fancyhf{}
     \renewcommand{\headrulewidth}{0.3pt}
     \renewcommand{\footrulewidth}{0pt}
-    \setlength{\headsep}{2\baselineskip}
-    \setlength{\marginparwidth}{45pt}
+    \setlength{\headsep}{10pt}
     \ifdefined\@oneside
         \fancyhead[R]{\thepage}
+        \fancyhead[L]{\leftmark}
     \else
+        \fancyhead[LO]{\leftmark}
+        \fancyhead[RE]{\rightmark}
         \fancyhead[LE,RO]{\thepage}
     \fi
 }
 
 % Redefinition of chapter header for custom font and format.
 %\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{mainmatter}}{}{}
-
 \renewcommand{\@makechapterhead}[1]{
+    \cleardoublepage
     \pagestyle{mainmatter}
     \thispagestyle{chapmatter}
     \spacing{1}
     \begin{flushleft}
         \parindent\z@\normalfont\fontfamily{cinzel}\fontseries{m}\selectfont\@chapapp\space\thechapter\linebreak
         \LARGE#1\par\nobreak
-        \vspace{0.5\baselineskip}
+        \vspace{12pt}
         \hrule width \hsize height 0.3pt \kern .5mm
     \end{flushleft}
-    \vspace{1\baselineskip}
+    \vspace{18pt}
     \spacing{1.5}
 }
+
+% Redefinition of chapter* to fix nomenclature
+\renewcommand{\@makeschapterhead}[1]{
+    \thispagestyle{frontmatter}
+    \vspace*{-12pt}
+    \begin{center}
+        \headtitle{#1}
+    \end{center}
+}
+
+% Redefinition of thebibliography to fix pagestyles
+\renewenvironment{thebibliography}[1]{
+    \chapter*{\refname}%
+    \pagestyle{refmatter}
+    \thispagestyle{chapmatter}
+    \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+    \list{
+        \@biblabel{\@arabic\c@enumiv}
+    }%
+    {
+        \settowidth\labelwidth{\@biblabel{#1}}%
+        \leftmargin\labelwidth
+        \advance\leftmargin\labelsep
+        \@openbib@code
+        \usecounter{enumiv}%
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}
+    }%
+    \sloppy
+    \clubpenalty4000
+    \@clubpenalty \clubpenalty
+    \widowpenalty4000%
+    \sfcode`\.\@m
+}
+{\def\@noitemerr{\@latex@warning{unicampthesis info: Empty `thebibliography' environment}}\endlist}
 
 
 % ---------------------------------------------------------------------------
@@ -560,11 +602,10 @@
 % ---------------------------------- Cover ----------------------------------
 \def\makecover{
     \setcounter{page}{1}
+    \clearpage
     \pdfbookmark[0]{\@namecover}{cover}
-    \pagestyle{frontmatter}
-    %\thispagestyle{frontmatter}
     \hypersetup{pageanchor=false}
-    %\begin{titlepage}
+    \pagestyle{frontmatter}
     \spacing{1}\selectfont
     \begin{minipage}[c]{0.17\textwidth}
         \includegraphics[scale = 0.15]{uec}
@@ -594,15 +635,15 @@
         \par
         {\large\textbf{\textsc{\@degreeyear}}}
     \end{center}
-    \cleardoublepage
 }
 
 % -------------------------------- Title Page -------------------------------
 \def\maketitle{
+    \clearpage
     \pdfbookmark[0]{\@nametitlepage}{titlepage}
     \hypersetup{pageanchor=false}
     \pagestyle{frontmatter}
-    \spacing{1}
+    \spacing{1}\selectfont
     \begin{minipage}[c]{0.17\textwidth}
         \includegraphics[scale = 0.15]{uec}
     \end{minipage}
@@ -829,7 +870,6 @@
         \par
         {\large\textbf{\textsc{\@degreeyear}}}
     \end{center}
-    \cleardoublepage
 }
 
 % ------------------------------ Approval Page ------------------------------
@@ -840,6 +880,7 @@
 
 % ----------------------------- Dedications Page ----------------------------
 \def\makededications{
+    \clearpage
     \pagestyle{frontmatter}
     \pdfbookmark[0]{\@namededications}{dedications}
     \begin{center}
@@ -853,23 +894,25 @@
 
 % ----------------------------- Acknowledgements ----------------------------
 \def\makeacknowledgements{
+    \clearpage
     \pagestyle{frontmatter}
     \pdfbookmark[0]{\@nameack}{acknowledgements}
+    \vspace*{0pt}
     \begin{center}
         \headtitle{\@nameack}
     \end{center}
     \vskip 2\baselineskip
     \textacknowledgements
-    \cleardoublepage
 }
 
 % -------------------------------- Abstract ---------------------------------
 \def\makeabstract{
+    \cleardoublepage
     \pagestyle{frontmatter}
     \hypersetup{pageanchor=true}
     \ifthenelse{\equal{\@mainlanguage}{brazil}}{}{
-        %\thispagestyle{frontmatter}
         \pdfbookmark[0]{\@nameabstract}{abstract}
+        \vspace*{0pt}
         \begin{center}
             \headtitle{\@nameabstract}
         \end{center}
@@ -877,40 +920,36 @@
         \@textabstractFGN
         \clearpage
     }
-
-    %\thispagestyle{frontmatter}
     \pdfbookmark[0]{\@nameabstractBR}{resumo}
+    % This is ugly, but I couldn't find a better way to remove the added whitespace
+    \ifthenelse{\equal{\@mainlanguage}{brazil}}{\vspace*{0pt}}{\vspace*{-13pt}}
     \begin{center}
         \headtitle{\@nameabstractBR}
     \end{center}
     \vskip 2\baselineskip
     \@textabstractBR
-    \clearpage
 }
 
 % ----------------------------- List of Figures -----------------------------
 \def\makefigureslist{
+    \cleardoublepage
     \pdfbookmark[0]{\@namefigures}{lof}
     \pagestyle{empty}
-    \setlength{\cftbeforeloftitleskip}{-1\baselineskip}
+    \setlength{\cftbeforeloftitleskip}{17pt}
     \renewcommand{\listfigurename}{\hfill\headtitle{\@namefigures}\hfill}   
-    % \addtocontents{lof}{\protect\thispagestyle{empty}}
     \addtocontents{lof}{\protect\thispagestyle{frontmatter}}
     \listoffigures
-    \clearpage
 }
 
 % ------------------------------ List of Tables -----------------------------
 \def\maketableslist{
     \pdfbookmark[0]{\@nametables}{lot}
+    \cleardoublepage
     \pagestyle{empty}
-    %\renewcommand*\listtablename{\headtitle{\@nametables}}
-    \setlength{\cftbeforelottitleskip}{-1\baselineskip}
+    \setlength{\cftbeforelottitleskip}{17pt}
     \renewcommand{\listtablename}{\hfill\headtitle{\@nametables}\hfill}   
-    % \addtocontents{lot}{\protect\thispagestyle{empty}}
     \addtocontents{lot}{\protect\thispagestyle{frontmatter}}
     \listoftables
-    \clearpage
 }
 
 % ---------------------------- List of Algorithms ---------------------------
@@ -920,48 +959,39 @@
 %
 % }
 
-% --------------------------------- Glossary --------------------------------
-% Work in progress
-\def\makeglossary{
-    \pdfbookmark[0]{\@nameglossary}{glossary}
-    \printglossaries
+% ------------------------------- Nomenclature ------------------------------
+\def\makenomencl{
+    \cleardoublepage
+    \pdfbookmark[0]{\@namenomenclature}{nomenclature}
+    \pagestyle{frontmatter}
+    %\nomenclature{}{\protect\thispagestyle{frontmatter}}
+    \renewcommand\nomname{\@namenomenclature}
+    \printnomenclature
+
 }
 
 % ---------------------------- Table of Contents ----------------------------
 \def\maketoc{
+    \cleardoublepage
     \hypersetup{pageanchor=true}
     \pdfbookmark[0]{\@nametoc}{toc}
     \pagestyle{empty}
-    %\renewcommand*\contentsname{\headtitle{\@nametoc}}
-    \setlength{\cftbeforetoctitleskip}{-1\baselineskip}
+    \addtocontents{toc}{\protect\thispagestyle{frontmatter}}
+    \setlength{\cftbeforetoctitleskip}{17pt}
     \renewcommand{\contentsname}{\hfill\headtitle{\@nametoc}\hfill}   
     \renewcommand{\cftaftertoctitle}{\hfill}
-    %\renewcommand{\headrulewidth}{0pt}
-    %\setlength{\headheight}{-100pt} 
-    % \addtocontents{toc}{\protect\thispagestyle{empty}}
     \spacing{1.5}
-    \addtocontents{toc}{\protect\thispagestyle{frontmatter}}
     \tableofcontents
-    \cleardoublepage
 }
 
 % ------------------------------- Bibliography ------------------------------
 \def\makebibliography#1{
-    %\pdfbookmark[0]{\@namebib}{\@namebib}
     \cleardoublepage
-    \pagestyle{plain}
-    %\fancypagestyle{plain}{\pagestyle{refmatter}}
-    %\pagestyle{refmatter}
-    %\fancypagestyle{empty}{\pagestyle{refmatter}}
-    %\patchcmd{\chapter}{\thispagestyle{mainmatter}}{\thispagestyle{refmatter}}{}{}
-    \setlength{\headsep}{0pt}
-    %\titleformat{\chapter}{\centering}{}
     \renewcommand\bibname{\headtitle{\@namebib}}
     \bibliographystyle{\@citationformat}
     \bibliography{#1}
+    \pagestyle{refmatter}
     \addcontentsline{toc}{chapter}{\@namebib}
-    \cleardoublepage
-    %\patchcmd{\chapter}{\thispagestyle{refmatter}}{\thispagestyle{mainmatter}}{}{}
 }
 
 % --------------------------------- Appendix --------------------------------

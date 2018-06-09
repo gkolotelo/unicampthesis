@@ -1,0 +1,42 @@
+\renewcommand\nomgroup[1]{% Alphabetical ordering A to H
+	\ifthenelse{\equal{#1}{A}}{\item[\textbf{Abbreviations}]}{%
+	\ifthenelse{\equal{#1}{B}}{\item[\textbf{Latin Letters}]}{
+	\ifthenelse{\equal{#1}{C}}{\item[\textbf{Greek Letters}]}{
+	\ifthenelse{\equal{#1}{D}}{\item[\textbf{Constants}]}{
+	\ifthenelse{\equal{#1}{E}}{\item[\textbf{Supercripts}]}{
+	\ifthenelse{\equal{#1}{F}}{\item[\textbf{Subscripts}]}{
+	\ifthenelse{\equal{#1}{G}}{\item[\textbf{Symbols}]}{
+	\ifthenelse{\equal{#1}{H}}{\item[\textbf{Notations}]}{
+	}}}}}}}}% Close all open brackets
+	\vspace{15pt}
+}
+\setlength{\nomlabelwidth}{3cm}
+
+% Abbreviations
+\nomenclature[A, 02]{$DC$}{Direct Current}
+\nomenclature[A, 01]{$LTI$}{Linear Time-Invariant}
+
+% Latin letters
+\nomenclature[B, 1]{$\mathbb{R}$}{Set of real numbers.}
+\nomenclature[B, 2]{$\mathbb{C}$}{Set of complex Numbers}
+\nomenclature[B, 3]{$\mathbb{R}^{n\times m}$}{Set of real matrices of dimension $n\times m$.}
+
+% Greek letters
+\nomenclature[C, 01]{$\omega$}{Angular frequency.}
+
+% Superscripts
+\nomenclature[E, 01]{$X^T$}{Transpose of matrix $X$.}
+
+% Subscripts
+\nomenclature[F, 01]{$x_i$}{$i-$th element of vector $x$.}
+\nomenclature[F, 03]{$H_{wz}(s)$}{Transfer matrix from input $w$ to output $z$.}
+
+% Symbols
+\nomenclature[G, 01]{$\bullet$}{Symmetric block of a symmetric matrix.}
+\nomenclature[G, 03]{diag$(X,Y)$}{Block diagonal matrix, whose elements are $X$ and $Y$.}
+\nomenclature[G, 02]{tr$(X)$}{Trace of matrix $X$.}
+\nomenclature[G, 04]{$\Vert\cdot\Vert_2$}{Euclidean norm.}
+\nomenclature[G, 05]{$\vert\cdot\vert$}{Absolute value of a scalar.}
+
+
+

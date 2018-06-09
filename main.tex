@@ -14,11 +14,13 @@
 % For a copy, see <https://opensource.org/licenses/MIT>.
 %
 % Packages required by unicampthesis class:
-%  	abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox,
-%   fancyhdr, fontenc, geometry, glossaries, glossaries-extra, graphicx,
-%	hyperref, hyphenat, ifthen, indentfirst, inputenc, layout, microtype,
-% 	setspace, titlesec, tocloft, url, xcolor
+%   abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox,
+%   fancyhead, fontenc, graphicx, hyperref, hyphenat, ifthen, indentfirst,
+%   inputenc, layout, microtype, nomencl, setspace, tocloft, url, xcolor
 %
+% The following line executes makeindex to generate required files for nomencl,
+% --shell-escape flag is required.
+\immediate\write18{makeindex -s nomencl.ist -o "\jobname.nls" "\jobname.nlo"}
 
 % ---------------------------------------------------------------------------
 % -------------------------- unicampthesis options --------------------------
@@ -88,6 +90,10 @@
 % Show labels and references in text. Comment out for final version.
 \usepackage{showkeys}
 
+% Commands useful for viewing margins and lengths
+% \usepackage{showframe}
+% \usepackage{layout} % Issue \layout
+
 % Definition of custom environments using amsthm
 \theoremstyle{plain}
 \newtheorem{lemma}{Lemma}[chapter]
@@ -109,6 +115,9 @@
 \include{definitions}
 % ---------------------------------------------------------------------------
 
+% Include nomenclature
+\include{nomenclature}
+
 % To-do list
 % \listoftodos\todototoc\pagebreak
 
@@ -120,8 +129,10 @@
 \makeabstract
 \makefigureslist
 \maketableslist
-%\makeglossary % Work in progress
+\makenomencl
 \maketoc
+
+
 
 % Main document body:
 \include{chapters/chapter1}
