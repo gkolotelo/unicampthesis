@@ -294,11 +294,11 @@
     \def\@namekeywords{Keywords}
     \ifdefined\@undergrad
         \def\@nametitleFGN{Bachelor}
-        \def\@namethesisFGN{Thesis} % May need to change to make non EN_US speakers happy
+        \def\@namethesisFGN{Monograph}
     \fi
     \ifdefined\@masters
         \def\@nametitleFGN{Master of Science}
-        \def\@namethesisFGN{Thesis} % May need to change to make non EN_US speakers happy
+        \def\@namethesisFGN{Dissertation}
     \fi
     \ifdefined\@doctorate              
         \def\@nametitleFGN{Doctor of Philosophy}
