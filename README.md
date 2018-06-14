@@ -5,4 +5,6 @@ LaTeX class for UNICAMP styled monographs, dissertations and theses written in p
 This is a work in progress, and some features are not yet complete.
 
 LaTeX packages required by unicampthesis class:
-abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox, fancyhdr, fontenc, geometry, glossaries, glossaries-extra, graphicx, hyperref, hyphenat, ifthen, indentfirst, inputenc, layout, microtype, setspace, titlesec, tocloft, url, xcolor
+abntex2cite, amsmath, amssymb, amstext, amsthm, babel, etoolbox,
+fancyhead, fontenc, graphicx, hyperref, hyphenat, ifthen, indentfirst,
+inputenc, layout, microtype, nomencl, setspace, tocloft, url, xcolor
